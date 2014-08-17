@@ -3,23 +3,41 @@
 
 ## Loading and preprocessing the data
 Let's call the variable "activity". "activity_clear" contains no NAs.
-```{r}
+
+```r
 activity = read.csv("activity.csv")
 activity_clear = subset(activity, !is.na(activity$steps))
 ```
 
 ## What is mean total number of steps taken per day?
 Mean is low, but non-zero, while median is exactly zero. Most days have no activity at all.
-```{r}
-hist(x = activity_clear$steps, col="blue", xlab="Total Steps a Day (with cleared NAs)", ylab="Number of days with such frequancy")
-mean(activity_clear$steps)
-median(activity_clear$steps)
 
+```r
+hist(x = activity_clear$steps, col="blue", xlab="Total Steps a Day (with cleared NAs)", ylab="Number of days with such frequancy")
+```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+
+```r
+mean(activity_clear$steps)
+```
+
+```
+## [1] 37.38
+```
+
+```r
+median(activity_clear$steps)
+```
+
+```
+## [1] 0
 ```
 
 ## What is the average daily activity pattern?
 The most activity is observed aroun 8:35 a.m.
-```{r}
+
+```r
 intervals = unique(activity_clear$interval)
 av_act = c()
 for (i in 1:length(intervals)){
@@ -29,15 +47,31 @@ for (i in 1:length(intervals)){
     }
 
 plot(x = intervals, y = av_act, type="l", ylab="Average number of steps in interval across all days", xlab="Time intervals, where 2000 means 20:00 - 20:05")
+```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+
+```r
 maxint = which.max(av_act)
 intervals[maxint]
+```
+
+```
+## [1] 835
+```
+
+```r
 av_act[maxint]
+```
+
+```
+## [1] 206.2
 ```
 
 ## Imputing missing values
 Replacing NAs with the average value for the time interval. No changed is averages observed.
-```{r}
+
+```r
 number_of_missings = sum(is.na(activity$steps))
 
 
@@ -51,14 +85,30 @@ for (i in 1:length(activity_full$steps)){
     }
 
 hist(x = activity_full$steps, col="blue", xlab="Total Steps a Day (with filled NAs)", ylab="Number of days with such frequancy")
-mean(activity_full$steps)
-median(activity_full$steps)
+```
 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+```r
+mean(activity_full$steps)
+```
+
+```
+## [1] 37.38
+```
+
+```r
+median(activity_full$steps)
+```
+
+```
+## [1] 0
 ```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
 activity_full$weekday = weekdays(as.Date(activity_full$date))
 activity_full$weekday = as.factor(activity_full$weekday)
 for (i in 1:length(activity_full$steps)){
@@ -92,7 +142,7 @@ for (i in 1:length(intervals)){
 par(mfrow=c(2,1))
 plot(x = intervals, y = av_wday_act, type="l", ylab="Average # steps in weekdays")
 plot(x = intervals, y = av_wend_act, type="l", ylab="Average # steps in weekends", xlab="Time intervals, where 2000 means 20:00 - 20:05")
-
-
 ```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
