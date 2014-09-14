@@ -13,7 +13,9 @@ activity_clear = subset(activity, !is.na(activity$steps))
 Mean is low, but non-zero, while median is exactly zero. Most days have no activity at all.
 
 ```r
-hist(x = activity_clear$steps, col="blue", xlab="Total Steps a Day (with cleared NAs)", ylab="Number of days with such frequancy")
+hist(x = activity_clear$steps, col="blue", 
+     xlab="Total Steps a Day (with cleared NAs)", 
+     ylab="Number of days with such frequancy")
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
@@ -46,7 +48,9 @@ for (i in 1:length(intervals)){
     av_act = c(av_act, av_int)
     }
 
-plot(x = intervals, y = av_act, type="l", ylab="Average number of steps in interval across all days", xlab="Time intervals, where 2000 means 20:00 - 20:05")
+plot(x = intervals, y = av_act, type="l", 
+     ylab="Average number of steps in interval across all days", 
+     xlab="Time intervals, where 2000 means 20:00 - 20:05")
 ```
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
@@ -69,7 +73,7 @@ av_act[maxint]
 ```
 
 ## Imputing missing values
-Replacing NAs with the average value for the time interval. No changed is averages observed.
+Replacing NAs with the average value for the time interval. No changed in averages observed.
 
 ```r
 number_of_missings = sum(is.na(activity$steps))
@@ -84,7 +88,8 @@ for (i in 1:length(activity_full$steps)){
         }
     }
 
-hist(x = activity_full$steps, col="blue", xlab="Total Steps a Day (with filled NAs)", ylab="Number of days with such frequancy")
+hist(x = activity_full$steps, col="blue", xlab="Total Steps a Day (with filled NAs)",
+     ylab="Number of days with such frequancy")
 ```
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
@@ -107,6 +112,9 @@ median(activity_full$steps)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+Weekdays have top activity in the morning and the second top in the evening, which probably corresponds to time before and after work/school/college.
+
+On the other hand, in weekends activity time has higher varience, with tops spread all over the day, starting at 8 a.m. and with other tops at 9, 12-14, 16, etc. Though tops become lower towards the evening.
 
 ```r
 activity_full$weekday = weekdays(as.Date(activity_full$date))
@@ -141,7 +149,8 @@ for (i in 1:length(intervals)){
 
 par(mfrow=c(2,1))
 plot(x = intervals, y = av_wday_act, type="l", ylab="Average # steps in weekdays")
-plot(x = intervals, y = av_wend_act, type="l", ylab="Average # steps in weekends", xlab="Time intervals, where 2000 means 20:00 - 20:05")
+plot(x = intervals, y = av_wend_act, type="l", ylab="Average # steps in weekends",
+     xlab="Time intervals, where 2000 means 20:00 - 20:05")
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
