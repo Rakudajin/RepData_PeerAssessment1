@@ -10,30 +10,33 @@ activity_clear = subset(activity, !is.na(activity$steps))
 ```
 
 ## What is mean total number of steps taken per day?
-Mean is low, but non-zero, while median is exactly zero. Most days have no activity at all.
+Both mean and median are a bit more than 10 000 steps per day.
 
 ```r
-hist(x = activity_clear$steps, col="blue", 
+act_by_day = aggregate(activity_clear$steps, by=list(activity_clear$date), FUN=sum)
+
+hist(x = act_by_day$x, col="blue", 
      xlab="Total Steps a Day (with cleared NAs)", 
-     ylab="Number of days with such frequancy")
+     ylab="Number of days with such frequancy",
+     breaks = 10)
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
 
 ```r
-mean(activity_clear$steps)
+mean(act_by_day$x)
 ```
 
 ```
-## [1] 37.38
+## [1] 10766
 ```
 
 ```r
-median(activity_clear$steps)
+median(act_by_day$x)
 ```
 
 ```
-## [1] 0
+## [1] 10765
 ```
 
 ## What is the average daily activity pattern?
@@ -73,7 +76,7 @@ av_act[maxint]
 ```
 
 ## Imputing missing values
-Replacing NAs with the average value for the time interval. No changed in averages observed.
+Replacing NAs with the average value for the time interval. No changed in averages observed, which was expected according to the metod for NA replacement.
 
 ```r
 number_of_missings = sum(is.na(activity$steps))
@@ -88,26 +91,30 @@ for (i in 1:length(activity_full$steps)){
         }
     }
 
-hist(x = activity_full$steps, col="blue", xlab="Total Steps a Day (with filled NAs)",
-     ylab="Number of days with such frequancy")
+act_by_day_full = aggregate(activity_full$steps, by=list(activity_full$date), FUN=sum)
+
+hist(x = act_by_day_full$x, col="blue", 
+     xlab="Total Steps a Day (with filled NAs)", 
+     ylab="Number of days with such frequancy",
+     breaks = 10)
 ```
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
 ```r
-mean(activity_full$steps)
+mean(act_by_day_full$x)
 ```
 
 ```
-## [1] 37.38
+## [1] 10766
 ```
 
 ```r
-median(activity_full$steps)
+median(act_by_day_full$x)
 ```
 
 ```
-## [1] 0
+## [1] 10766
 ```
 
 
